@@ -1,0 +1,49 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Home - ShopMate{% endblock %}
+
+{% block content %}
+
+  <!-- Product Section -->
+  <section class="products">
+    <h2>Featured Products</h2>
+    <div class="product-grid">
+      {% load static %}
+      <div class="product-card">
+        <img
+          src="{% static 'myapp/images/WirelessHeadphones.jpeg' %}"
+          alt="Product 1"
+        />
+        <h3>Wireless Headphones</h3>
+        <p>₹1,999</p>
+        <a href="#" class="btn small">Add to Cart</a>
+      </div>
+      <div class="product-card">
+        <img src="{% static 'myapp/images/SmartWatch.jpeg' %}" alt="Product 2" />
+        <h3>Smart Watch</h3>
+        <p>₹2,499</p>
+        <a href="#" class="btn small">Add to Cart</a>
+      </div>
+      <div class="product-card">
+        <img
+          src="{% static 'myapp/images/RunningShoes.jpeg' %}"
+          alt="Product 3"
+        />
+        <h3>Running Shoes</h3>
+        <p>₹1,299</p>
+        <a href="#" class="btn small">Add to Cart</a>
+      </div>
+      <div class="product-card">
+        <img
+          src="{% static 'myapp/images/BluetoothSpeaker.jpeg' %}"
+          alt="Product 4"
+        />
+        <h3>Bluetooth Speaker</h3>
+        <p>₹899</p>
+        <a href="#" class="btn small">Add to Cart</a>
+      </div>
+    </div>
+  </section>
+ 
+{% endblock %}
+  
