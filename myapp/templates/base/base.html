@@ -1,4 +1,3 @@
-<!-- base.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,6 +21,16 @@
         <li><a href="{% url 'login' %}">Login</a></li>
         <li><a href="{% url 'product' %}">Products</a></li>
         <li><a href="{% url 'cart' %}">Cart</a></li>
+        <!-- Profile Dropdown -->
+        <li class="profile-dropdown">
+          <button class="profile-btn" id="profileToggle">
+            Profile <span id="arrow">⯆</span>
+          </button>
+          <div class="dropdown-menu" id="profileMenu">
+            <a href="{% url 'product' %}">My Profile</a>
+            <a href="{% url 'home' %}">Logout</a>
+          </div>
+        </li>
       </ul>
     </nav>
   </header>
@@ -38,5 +47,30 @@
       <p>© 2025 ShopMate. All Rights Reserved.</p>
     </div>
   </footer>
+
+  <!-- Dropdown Toggle Script -->
+  <script>
+    const toggleBtn = document.getElementById("profileToggle");
+    const menu = document.getElementById("profileMenu");
+    const arrow = document.getElementById("arrow");
+
+    document.addEventListener("click", function (e) {
+      if (toggleBtn.contains(e.target)) {
+        const isVisible = menu.style.visibility === "visible";
+
+        // Toggle visibility
+        menu.style.opacity = isVisible ? "0" : "1";
+        menu.style.visibility = isVisible ? "hidden" : "visible";
+        menu.style.transform = isVisible ? "translateY(-10px)" : "translateY(0)";
+        arrow.textContent = isVisible ? "⯆" : "⯅";
+      } else if (!menu.contains(e.target)) {
+        // Hide on outside click
+        menu.style.opacity = "0";
+        menu.style.visibility = "hidden";
+        menu.style.transform = "translateY(-10px)";
+        arrow.textContent = "⯆";
+      }
+    });
+  </script>
 </body>
 </html>
