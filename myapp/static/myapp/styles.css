@@ -405,6 +405,17 @@ body {
   background: #ff6f61;
 }
 
+/* ====== Error message ====== */
+.error-message {
+  color: #d8000c;              /* Red text */
+  background-color: #ffbaba;   /* Light red background */
+  border: 1px solid #d8000c;   /* Matching red border */
+  padding: 10px 15px;
+  margin: 10px 0;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
 /* ====== Footer ====== */
 footer {
   background: #1e1e2f;
@@ -455,6 +466,7 @@ input:focus {
 ::-webkit-scrollbar-thumb:hover {
   background: #ff4f4f;
 }
+
 
 /* ====== Responsive ====== */
 @media (max-width: 768px) {

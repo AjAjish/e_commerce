@@ -5,6 +5,7 @@ class User(models.Model):
     userid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     username = models.CharField(max_length=100, null=True, blank=True)
     email = models.EmailField(max_length=100, unique=True, null=True, blank=True)
+    profile_image = models.ImageField(upload_to='profile/', null=True, blank=True)
     password = models.CharField(max_length=100)
 
     def __str__(self):
@@ -16,7 +17,13 @@ class Product(models.Model):
     product_image = models.ImageField(upload_to='products/', null=True, blank=True)
     description = models.TextField()
     price = models.DecimalField(max_digits=10, decimal_places=2)
-    category = models.CharField(max_length=50)
+    category = models.CharField(max_length=50,choices=[
+        ('electronics', 'Electronics'),
+        ('fashion', 'Fashion'),
+        ('home_appliances', 'Home Appliances'),
+        ('footwear', 'Footwear'),
+        ('accessories', 'Accessories'),
+    ])
     stock = models.IntegerField(null=True, blank=True)
 
     def __str__(self):

@@ -7,7 +7,7 @@
 <div class="profile-container">
   <h2>My Profile</h2>
   <div class="profile-card">
-    <img class="profile-image" src="{{ user.profile.image.url }}" alt="Profile Picture" />
+    <img class="profile-image" src="{{ user.profile_image.url }}" alt="Profile Picture" />
 
     <!-- Profile Details -->
     <div class="profile-details">
@@ -18,14 +18,22 @@
     <!-- Form to Change Profile Picture -->
     <form method="POST" enctype="multipart/form-data" class="profile-pic-form">
       {% csrf_token %}
-      <label for="id_image" class="upload-label">Change Profile Picture</label>
-      <input type="file" name="image" id="id_image" accept="image/*" required />
-      <button type="submit" class="upload-btn">Upload</button>
+
+      {% if not user.profile_image.url %}
+        <label for="id_image" class="upload-label">Change Profile Picture</label>
+        <input type="file" name="image" id="id_image" accept="image/*" required />
+        <button type="submit" class="upload-btn">Upload</button>
+
+      {% endif %}
+      {% if error %}
+      <p class="error-message">{{ error }}</p>
+      {% endif %}
     </form>
   </div>
 
-  <div class="back-btn-container">
-    <a href="{% url 'home' %}" class="back-button">← Back to Home</a>
-  </div>
+ <div class="back-btn-container">
+  <a href="javascript:void(0);" class="back-button" onclick="goBack()">← Go Back</a>
 </div>
+
+
 {% endblock %}

@@ -75,8 +75,17 @@ def logout(request):
     return redirect('home')
 
 def profile_view(request, userid=None):
-    userid = request.session.get('userid')
-    if userid:
-        user = User.objects.get(userid=userid)
-        return render(request, 'profile_view.html', {'user': user})
-    return render(request, 'profile_view.html')
+    if userid is None:
+        userid = request.session.get('userid')
+    user = User.objects.get(userid=userid)
+    if request.method == 'POST':
+        profile_pic = request.FILES.get('image')
+        if profile_pic:
+            print("image got")
+            user.profile_pic = profile_pic
+            user.save()
+            messages.success(request, 'Profile picture updated successfully!')
+        else:
+            print("image not got")
+            messages.error(request, 'Please upload a valid image.')
+    return render(request, 'profile_view.html', {'user': user})
