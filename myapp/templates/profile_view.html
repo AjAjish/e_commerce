@@ -1,0 +1,31 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+<div class="profile-container">
+  <h2>My Profile</h2>
+  <div class="profile-card">
+    <img class="profile-image" src="{{ user.profile.image.url }}" alt="Profile Picture" />
+
+    <!-- Profile Details -->
+    <div class="profile-details">
+      <p><strong>Username:</strong> {{ user.username }}</p>
+      <p><strong>Email:</strong> {{ user.email }}</p>
+    </div>
+
+    <!-- Form to Change Profile Picture -->
+    <form method="POST" enctype="multipart/form-data" class="profile-pic-form">
+      {% csrf_token %}
+      <label for="id_image" class="upload-label">Change Profile Picture</label>
+      <input type="file" name="image" id="id_image" accept="image/*" required />
+      <button type="submit" class="upload-btn">Upload</button>
+    </form>
+  </div>
+
+  <div class="back-btn-container">
+    <a href="{% url 'home' %}" class="back-button">← Back to Home</a>
+  </div>
+</div>
+{% endblock %}

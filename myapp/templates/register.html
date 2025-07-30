@@ -10,13 +10,20 @@
         {% csrf_token %}
 
         <!-- Username -->
-        <input type="text" name="username" placeholder="Username" required />
-
+        <input type="text" name="username" placeholder="Username" />
+        {% if username_error %}
+          <p class="error">{{ username_error }}</p>
+        {% endif %}
         <!-- Email -->
-        <input type="email" name="email" placeholder="Email" required />
-
+        <input type="email" name="email" placeholder="Email"  />
+        {% if email_error %}
+          <p class="error">{{ email_error }}</p>
+        {% endif %}
         <!-- Password -->
-        <input type="password" name="password1" placeholder="Password" required />
+        <input type="password" name="password1" placeholder="Password" />
+        {% if password_error %}
+          <p class="error">{{ password_error }}</p>
+        {% endif %}
 
         <!-- Confirm Password -->
         <input type="password" name="password2" placeholder="Confirm Password" required />

@@ -147,6 +147,125 @@ body {
   background: #e05646;
 }
 
+.toast {
+  visibility: hidden;
+  min-width: 250px;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  border-radius: 8px;
+  padding: 12px 20px;
+  position: fixed;
+  z-index: 2000;
+  left: 50%;
+  bottom: 30px;
+  transform: translateX(-50%) scale(0.9);
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  font-family: 'Poppins', sans-serif;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+}
+
+.toast.show {
+  visibility: visible;
+  opacity: 1;
+  transform: translateX(-50%) scale(1);
+}
+
+.profile-container {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 30px;
+  background-color: #f9f9f9;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  font-family: 'Poppins', sans-serif;
+}
+
+.profile-container h2 {
+  text-align: center;
+  margin-bottom: 30px;
+  font-weight: 600;
+  color: #333;
+}
+
+.profile-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.profile-image {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 20px;
+  border: 4px solid #007bff;
+}
+
+.profile-details {
+  text-align: center;
+  font-size: 1rem;
+  color: #444;
+  margin-bottom: 20px;
+}
+
+.profile-details p {
+  margin: 8px 0;
+}
+
+.profile-pic-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.upload-label {
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: #333;
+}
+
+.profile-pic-form input[type="file"] {
+  padding: 6px;
+  margin-bottom: 12px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.upload-btn {
+  padding: 8px 18px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.upload-btn:hover {
+  background-color: #0056b3;
+}
+
+.back-btn-container {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.back-button {
+  padding: 10px 20px;
+  background-color: #6c757d;
+  color: #fff;
+  border-radius: 6px;
+  text-decoration: none;
+}
+
+.back-button:hover {
+  background-color: #5a6268;
+}
+
+
 /* ====== Login Section ======*/
 .login-section {
   min-height: 80vh;

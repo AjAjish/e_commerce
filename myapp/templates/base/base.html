@@ -1,76 +1,98 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>{% block title %}E-Commerce Home{% endblock %}</title>
-  {% load static %}
-  <link rel="stylesheet" href="{% static 'myapp/styles.css' %}" />
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}E-Commerce Home{% endblock %}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'myapp/styles.css' %}" />
 
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet"/>
-</head>
-<body>
-  <!-- Navigation Bar -->
-  <header>
-    <nav class="navbar">
-      <div class="logo"><a href="{% url 'base' %}">ShopMate</a></div>
-      <ul class="nav-links">
-        <li><a href="{% url 'home' %}">Home</a></li>
-        <li><a href="{% url 'register' %}">Register</a></li>
-        <li><a href="{% url 'login' %}">Login</a></li>
-        <li><a href="{% url 'product' %}">Products</a></li>
-        <li><a href="{% url 'cart' %}">Cart</a></li>
-        <!-- Profile Dropdown -->
-        <li class="profile-dropdown">
-          <button class="profile-btn" id="profileToggle">
-            Profile <span id="arrow">⯆</span>
-          </button>
-          <div class="dropdown-menu" id="profileMenu">
-            <a href="{% url 'product' %}">My Profile</a>
-            <a href="{% url 'home' %}">Logout</a>
-          </div>
-        </li>
-      </ul>
-    </nav>
-  </header>
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <!-- Navigation Bar -->
+    <header>
+      <nav class="navbar">
+        <div class="logo"><a href="{% url 'base' %}">ShopMate</a></div>
+        <ul class="nav-links">
+          {% if userid %}
+          <li><a href="{% url 'product_with_userid' userid %}">Products</a></li>
+          <li><a href="{% url 'cart_with_userid' userid %}">Cart</a></li>
+          {% else %}
+          <li><a href="{% url 'home' %}">Home</a></li>
+          <li><a href="{% url 'register' %}">Register</a></li>
+          <li><a href="{% url 'login' %}">Login</a></li>
+          <li><a href="{% url 'product' %}">Products</a></li>
+          <li><a href="{% url 'cart' %}">Cart</a></li>
+          {% endif %} {% if userid %}
+          <!-- Profile Dropdown -->
+          <li class="profile-dropdown">
+            <button class="profile-btn" id="profileToggle">
+              Profile <span id="arrow">⯆</span>
+            </button>
+            <div class="dropdown-menu" id="profileMenu">
+              <a href="{% url 'profile_view' userid %}">My Profile</a>
+              <a href="{% url 'logout' %}">Logout</a>
+            </div>
+          </li>
+          {% endif %}
+        </ul>
+      </nav>
+    </header>
 
-  <!-- Page Content -->
-  <main>
-    {% block content %}
-    {% endblock %}
-  </main>
+    <!-- Page Content -->
+    <main>{% block content %}{% endblock %}</main>
 
-  <!-- Footer -->
-  <footer>
-    <div class="footer-content">
-      <p>© 2025 ShopMate. All Rights Reserved.</p>
+    <!-- Toast Message -->
+    {% if messages %}
+    <div id="toast" class="toast">
+      {% for message in messages %} {{ message }} {% endfor %}
     </div>
-  </footer>
+    {% endif %}
 
-  <!-- Dropdown Toggle Script -->
-  <script>
-    const toggleBtn = document.getElementById("profileToggle");
-    const menu = document.getElementById("profileMenu");
-    const arrow = document.getElementById("arrow");
+    <!-- Footer -->
+    <footer>
+      <div class="footer-content">
+        <p>© 2025 ShopMate. All Rights Reserved.</p>
+      </div>
+    </footer>
 
-    document.addEventListener("click", function (e) {
-      if (toggleBtn.contains(e.target)) {
-        const isVisible = menu.style.visibility === "visible";
+    <!-- Scripts -->
+    <script>
+      // Profile Dropdown Toggle
+      const toggleBtn = document.getElementById("profileToggle");
+      const menu = document.getElementById("profileMenu");
+      const arrow = document.getElementById("arrow");
 
-        // Toggle visibility
-        menu.style.opacity = isVisible ? "0" : "1";
-        menu.style.visibility = isVisible ? "hidden" : "visible";
-        menu.style.transform = isVisible ? "translateY(-10px)" : "translateY(0)";
-        arrow.textContent = isVisible ? "⯆" : "⯅";
-      } else if (!menu.contains(e.target)) {
-        // Hide on outside click
-        menu.style.opacity = "0";
-        menu.style.visibility = "hidden";
-        menu.style.transform = "translateY(-10px)";
-        arrow.textContent = "⯆";
+      document.addEventListener("click", function (e) {
+        if (toggleBtn.contains(e.target)) {
+          const isVisible = menu.style.visibility === "visible";
+          menu.style.opacity = isVisible ? "0" : "1";
+          menu.style.visibility = isVisible ? "hidden" : "visible";
+          menu.style.transform = isVisible
+            ? "translateY(-10px)"
+            : "translateY(0)";
+          arrow.textContent = isVisible ? "⯆" : "⯅";
+        } else if (!menu.contains(e.target)) {
+          menu.style.opacity = "0";
+          menu.style.visibility = "hidden";
+          menu.style.transform = "translateY(-10px)";
+          arrow.textContent = "⯆";
+        }
+      });
+
+      // Auto-show toast
+      const toast = document.getElementById("toast");
+      if (toast) {
+        toast.classList.add("show");
+        setTimeout(() => {
+          toast.classList.remove("show");
+        }, 1000); // 1 second
       }
-    });
-  </script>
-</body>
+    </script>
+  </body>
 </html>
