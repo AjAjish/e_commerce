@@ -62,7 +62,9 @@ def product_page(request,userid=None):
 def cart(request,userid=None):
     userid = request.session.get('userid')
     if userid:
-        return render(request, 'cart.html', {'userid': userid})
+        user = User.objects.get(userid=userid)
+        cart_items = Cart.objects.filter(user=user).all()
+        return render(request, 'cart.html', {'userid': userid,'cart_items':cart_items})
     return render(request,'cart.html')
 
 def logout(request):
@@ -91,12 +93,15 @@ def add_to_cart(request, productid, userid=None):
         userid = request.session.get('userid') or userid
         if not userid:
             return messages.error(request,"User Not Found.")
-        
-        user = User.objects.filter(userid=userid).first()
-        product = Product.objects.filter(productid=productid).first()
-        cart_item, created = Cart.objects.get_or_create(user=user, product=product)
-
-        if not created:
-            cart_item.quantity += 1
-            cart_item.save()
-    return redirect('cart')
+        try:
+            user = User.objects.get(userid=userid)
+            product = Product.objects.get(productid=productid)
+            if user and product:
+                cart_item = Cart.objects.create(
+                user=user,
+                product=product
+                )
+                messages.success(request, f"Product {product.name} added to cart.")
+        except:
+            messages.error(request,"Error adding product to cart.")  
+    return redirect('product_with_userid',userid=userid)

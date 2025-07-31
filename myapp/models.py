@@ -30,16 +30,16 @@ class Product(models.Model):
         return f"{self.productid} - {self.name} - ${self.price}"
 
 class Cart(models.Model):
-    cartid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    cartid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='cart_items')
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='in_carts')
     quantity = models.IntegerField(default=1)
 
     def __str__(self):
-        return f"Cart {self.cartid} - User {self.user.email} - Product {self.product.name} x{self.quantity}"
+        return f"Cart {self.cartid}"
 
 class Order(models.Model):
-    orderid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    orderid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='orders')
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='ordered_items')
     quantity = models.IntegerField(default=1)

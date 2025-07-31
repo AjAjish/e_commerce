@@ -1,7 +1,4 @@
-{% extends 'base/base.html' %}
-
-{% block title %}Product - ShopMate{% endblock %}
-
+{% extends 'base/base.html' %} {% block title %}Product - ShopMate{% endblock %}
 {% block content %}
 <section class="category-section">
   <h2>Categories</h2>
@@ -24,10 +21,17 @@
       <h3>{{ product.name }}</h3>
       <p>₹{{ product.price }}</p>
       <p>{{ product.description }}</p>
-      <a href="#" class="btn small">Add to Cart</a>
+
+      <form
+        method="post"
+        action="{% url 'add_to_cart' userid=userid productid=product.productid %}"
+      >
+        {% csrf_token %}
+        <input type="hidden" name="productid" value="{{ product.productid }}" />
+        <button type="submit" class="btn small">Add to Cart</button>
+      </form>
     </div>
     {% endfor %}
   </div>
 </section>
-{% endif %}
-{% endblock %}
+{% endif %} {% endblock %}

@@ -14,7 +14,8 @@ urlpatterns = [
     path('cart/', views.cart, name='cart'),
     path('cart/<uuid:userid>/', views.cart, name='cart_with_userid'),
     path('logout/', views.logout, name='logout'),
-    path('profile_view/<uuid:userid>/', views.profile_view, name='profile_view')
+    path('profile_view/<uuid:userid>/', views.profile_view, name='profile_view'),
+    path('add_to_cart/<uuid:userid>/<uuid:productid>/', views.add_to_cart, name='add_to_cart'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

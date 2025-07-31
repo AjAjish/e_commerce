@@ -3,5 +3,19 @@
 {% block title %}Cart - ShopMate{% endblock %}
 
 {% block content %}
-
+{% if cart_items %}
+<section class="products">
+  <div class="product-grid">
+    {% for cart_item in cart_items %}
+    <div class="product-card">
+      <img src="{{ cart_item.product.product_image.url }}" alt="{{ cart_item.product.name }}" />
+      <h3>{{ cart_item.product.name }}</h3>
+      <p>₹{{ cart_item.product.price }}</p>
+      <p>{{ cart_item.product.description }}</p>
+      <p>{{ cart_item.quantity }}</p>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
 {% endblock %}
