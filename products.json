@@ -1,0 +1,228 @@
+[
+  {
+    "productid": "fcb7469d-3c7e-4c7c-bca7-678af4f93f2d",
+    "name": "Smartphone - 128GB",
+    "product_image": "products/smartphone.jpg",
+    "description": "Latest smartphone with 128GB storage and dual camera system.",
+    "price": "69999",
+    "category": "electronics",
+    "stock": 60
+  },
+  {
+    "productid": "22e6fa3c-b7c6-4303-a69f-9ae77a7dd39f",
+    "name": "Air Fryer 3.5L",
+    "product_image": "products/air_fryer.jpg",
+    "description": "Oil-less air fryer with adjustable temperature and timer.",
+    "price": "11999",
+    "category": "home_appliances",
+    "stock": 40
+  },
+  {
+    "productid": "4e540b4e-c3d2-401e-a0ee-06b6f213fcb5",
+    "name": "Running Shoes",
+    "product_image": "products/running_shoes.jpg",
+    "description": "Lightweight and breathable running shoes for all terrains.",
+    "price": "599",
+    "category": "footwear",
+    "stock": 85
+  },
+  {
+    "productid": "ab541c62-4986-4c43-a1ee-b7b6e0792a1b",
+    "name": "Stainless Steel Watch",
+    "product_image": "products/watch.jpg",
+    "description": "Elegant stainless steel wristwatch with date function.",
+    "price": "1299",
+    "category": "accessories",
+    "stock": 25
+  },
+  {
+    "productid": "e46d7a8a-f7e1-4bb0-9c52-8b03457481bb",
+    "name": "Bluetooth Speaker",
+    "product_image": "products/speaker.jpg",
+    "description": "Portable Bluetooth speaker with high-quality sound and long battery life.",
+    "price": "399",
+    "category": "electronics",
+    "stock": 95
+  },
+  {
+    "productid": "d059978c-fb29-4b3a-a4a5-9f6f442d1a3c",
+    "name": "Microwave Oven",
+    "product_image": "products/microwave.jpg",
+    "description": "20L capacity microwave oven with quick defrost and auto-cook menu.",
+    "price": "4999",
+    "category": "home_appliances",
+    "stock": 33
+  },
+  {
+    "productid": "d86199d2-1c7c-42ea-9756-d5a2b37dc0c2",
+    "name": "Men's Leather Belt",
+    "product_image": "products/belt.jpg",
+    "description": "Genuine leather belt with classic metal buckle.",
+    "price": "259",
+    "category": "accessories",
+    "stock": 100
+  },
+  {
+    "productid": "5f816f73-93cc-4b2a-b8f8-263519ed9c31",
+    "name": "Men's Running Shorts",
+    "product_image": "products/shorts.jpg",
+    "description": "Comfortable, lightweight running shorts with breathable mesh.",
+    "price": "199",
+    "category": "fashion",
+    "stock": 200
+  },
+  {
+    "productid": "679345eb-6b38-45f8-a4dc-b2d5abedf748",
+    "name": "Vacuum Cleaner",
+    "product_image": "products/vacuum.jpg",
+    "description": "High-suction vacuum cleaner with multiple attachments.",
+    "price": "6999",
+    "category": "home_appliances",
+    "stock": 20
+  },
+  {
+    "productid": "88c8b263-b5b4-4fa2-b4c5-dce748a4e947",
+    "name": "Women's Sunglasses",
+    "product_image": "products/sunglasses.jpg",
+    "description": "UV-protected fashion sunglasses with a modern frame design.",
+    "price": "349",
+    "category": "accessories",
+    "stock": 80
+  },
+  {
+    "productid": "ef7e02e9-df2c-4b16-9e00-34c6d8d1c701",
+    "name": "Electric Kettle",
+    "product_image": "products/kettle.jpg",
+    "description": "1.7L stainless steel electric kettle with auto shut-off.",
+    "price": "2999",
+    "category": "home_appliances",
+    "stock": 50
+  },
+  {
+    "productid": "b093eeff-ef93-4ed7-8724-d1d30ce3a145",
+    "name": "Fitness Tracker Band",
+    "product_image": "products/fitness_band.jpg",
+    "description": "Smart fitness band with heart rate monitor and sleep tracking.",
+    "price": "599",
+    "category": "electronics",
+    "stock": 90
+  },
+  {
+    "productid": "b631a8fc-9131-4f86-b9aa-926f517f255b",
+    "name": "Canvas Sneakers",
+    "product_image": "products/sneakers.jpg",
+    "description": "Casual unisex sneakers made from durable canvas fabric.",
+    "price": "399",
+    "category": "footwear",
+    "stock": 110
+  },
+  {
+    "productid": "b3f1dabc-e088-412a-bbe0-5b49b2e33475",
+    "name": "Mini Bluetooth Keyboard",
+    "product_image": "products/keyboard.jpg",
+    "description": "Compact wireless keyboard compatible with phones and tablets.",
+    "price": "299",
+    "category": "electronics",
+    "stock": 70
+  },
+  {
+    "productid": "0c1ea7f5-9dd6-4fd6-a6ed-67a5d2ae65cc",
+    "name": "Non-Stick Frying Pan",
+    "product_image": "products/frying_pan.jpg",
+    "description": "Durable non-stick frying pan suitable for all cooktops.",
+    "price": "27.99",
+    "category": "home_appliances",
+    "stock": 65
+  },
+  {
+    "productid": "e203a2a1-fd63-4de9-bbc3-041e17fc6f46",
+    "name": "Men's Sports Shoes",
+    "product_image": "products/sports_shoes.jpg",
+    "description": "Ergonomic design for comfort and support during workouts.",
+    "price": "74.99",
+    "category": "footwear",
+    "stock": 95
+  },
+  {
+    "productid": "5a01a64e-b702-4d89-8bcb-7c02fbe5e001",
+    "name": "Galaxy Z Fold 6",
+    "product_image": "products/fold6.jpg",
+    "description": "A cutting-edge foldable smartphone with a 7.6\" AMOLED main display, Snapdragon 8 Gen 3 chip, and S Pen support for multitasking.",
+    "price": "129999",
+    "category": "electronics",
+    "stock": 25
+  },
+  {
+    "productid": "7b7b13d6-3d96-4dcf-9248-8d0dff964c61",
+    "name": "iPhone 15 Pro Max",
+    "product_image": "products/iphone15promax.jpg",
+    "description": "Apple’s flagship phone with a titanium frame, A17 Pro chip, 48MP main camera, and Dynamic Island for live notifications.",
+    "price": "139900",
+    "category": "electronics",
+    "stock": 40
+  },
+  {
+    "productid": "b6bb4c1b-8f95-4c35-a8c7-bfcf5b76a267",
+    "name": "OnePlus 12",
+    "product_image": "products/oneplus12.jpg",
+    "description": "Premium Android with Snapdragon 8 Gen 3, 2K 120Hz AMOLED, and 100W SUPERVOOC charging for ultra-fast power.",
+    "price": "49900",
+    "category": "electronics",
+    "stock": 35
+  },
+  {
+    "productid": "3488f5a4-99b5-4cf1-b889-3f274c8575fd",
+    "name": "Google Pixel 9 Pro",
+    "product_image": "products/pixel9pro.jpg",
+    "description": "Clean Android experience with Tensor G4 chip, advanced AI features, and an ultra-responsive OLED display.",
+    "price": "99999",
+    "category": "electronics",
+    "stock": 28
+  },
+  {
+    "productid": "b86e76d6-e56d-460b-8a8a-08e3cf0b69e1",
+    "name": "Xiaomi 14 Ultra",
+    "product_image": "products/xiaomi14ultra.jpg",
+    "description": "Leica-powered 50MP quad camera system, Snapdragon 8 Gen 3, and premium ceramic design.",
+    "price": "89900",
+    "category": "electronics",
+    "stock": 32
+  },
+  {
+    "productid": "8f6b37e0-3142-4658-9dc2-7ec537504dd8",
+    "name": "Realme GT Neo 6",
+    "product_image": "products/realmegtneo6.jpg",
+    "description": "Flagship killer with 144Hz AMOLED screen, Snapdragon 8s Gen 3, and super-fast 120W charging.",
+    "price": "27900",
+    "category": "electronics",
+    "stock": 60
+  },
+  {
+    "productid": "1e69bc02-c2c5-4309-8892-74bc65871a87",
+    "name": "Samsung Galaxy A55",
+    "product_image": "products/galaxya55.jpg",
+    "description": "Reliable mid-range with Exynos 1480, vivid Super AMOLED display, and sleek metal-glass design.",
+    "price": "22900",
+    "category": "electronics",
+    "stock": 70
+  },
+  {
+    "productid": "2b4c874e-f71f-46fa-9116-65a80e28dfe3",
+    "name": "iQOO Neo 9 Pro",
+    "product_image": "products/iqooneo9pro.jpg",
+    "description": "High-performance gaming phone with 144Hz refresh rate, VC cooling, and Dual X-axis linear motors.",
+    "price": "35999",
+    "category": "electronics",
+    "stock": 50
+  },
+  {
+    "productid": "bc263f95-4d7d-46a9-bf84-4c3cfa154417",
+    "name": "Nothing Phone (2a)",
+    "product_image": "products/nothing2a.jpg",
+    "description": "Minimalist design with Glyph Interface, Dimensity 7200 Pro chip, and near-stock Android.",
+    "price": "399.00",
+    "category": "electronics",
+    "stock": 65
+  }
+  
+]

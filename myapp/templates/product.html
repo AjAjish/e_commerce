@@ -1,16 +1,33 @@
-{% extends 'base/base.html' %} {% block title %}Product - ShopMate{% endblock %}
-{% block content %}
-    <section class="category-section">
-    <h2>Categories</h2>
-    <div class="categories">
-        <button class="category-btn">All</button>
-        <button class="category-btn">Electronics</button>
-        <button class="category-btn">Fashion</button>
-        <button class="category-btn">Footwear</button>
-        <button class="category-btn">Accessories</button>
-        <button class="category-btn">Home & Kitchen</button>
-    </div>
-    </section>
+{% extends 'base/base.html' %}
 
-    
+{% block title %}Product - ShopMate{% endblock %}
+
+{% block content %}
+<section class="category-section">
+  <h2>Categories</h2>
+  <div class="categories">
+    <button class="category-btn">All</button>
+    <button class="category-btn">Electronics</button>
+    <button class="category-btn">Fashion</button>
+    <button class="category-btn">Footwear</button>
+    <button class="category-btn">Accessories</button>
+    <button class="category-btn">Home Appliances</button>
+  </div>
+</section>
+
+{% if products %}
+<section class="products">
+  <div class="product-grid">
+    {% for product in products %}
+    <div class="product-card">
+      <img src="{{ product.product_image.url }}" alt="{{ product.name }}" />
+      <h3>{{ product.name }}</h3>
+      <p>₹{{ product.price }}</p>
+      <p>{{ product.description }}</p>
+      <a href="#" class="btn small">Add to Cart</a>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
 {% endblock %}
