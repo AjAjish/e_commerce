@@ -3,6 +3,7 @@ from django.contrib import messages
 from . models import User,Product,Cart
 
 
+
 # Create your views here.
 def base(request):
     return render(request, 'base.html')
@@ -99,7 +100,6 @@ def add_to_cart(request, productid, userid=None):
             user = User.objects.get(userid=userid)
             product = Product.objects.get(productid=productid)
             cart = Cart.objects.filter(user=user).first()
-
             if not cart:
                 cart = Cart.objects.create(
                     user=user,

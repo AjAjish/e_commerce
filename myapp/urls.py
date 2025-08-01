@@ -18,4 +18,5 @@ urlpatterns = [
     path('add_to_cart/<uuid:userid>/<uuid:productid>/', views.add_to_cart, name='add_to_cart'),
 ]
 
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

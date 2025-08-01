@@ -4,18 +4,24 @@
 
 {% block content %}
 {% if cart_items %}
-<section class="products">
-  <div class="product-grid">
-    {% for cart_item in cart_items %}
-    <div class="product-card">
-      <img src="{{ cart_item.product.product_image.url }}" alt="{{ cart_item.product.name }}" />
-      <h3>{{ cart_item.product.name }}</h3>
-      <p>₹{{ cart_item.product.price }}</p>
-      <p>{{ cart_item.product.description }}</p>
-      <p>{{ cart_item.quantity }}</p>
-    </div>
-    {% endfor %}
-  </div>
-</section>
+  {% with cart=cart_items.0.cart_items %}
+    <section class="products">
+      <div class="product-grid">
+        {% for product_id, product in cart.items %}
+          <div class="product-card">
+            <img src="{{ MEDIA_URL }}{{ product.product_image }}" alt="{{ product.name }}" />
+            <h3>{{ product.name }}</h3>
+            <p>₹{{ product.price }}</p>
+            <p>{{ product.description }}</p>
+            <p>Quantity: {{ product.quantity }}</p>
+          </div>
+        {% endfor %}
+      </div>
+    </section>
+  {% endwith %}
+{% else %}
+  <p>Your cart is empty.</p>
 {% endif %}
+
+
 {% endblock %}
