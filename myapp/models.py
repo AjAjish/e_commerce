@@ -33,6 +33,7 @@ class Cart(models.Model):
     cartid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='cart_items')
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='in_carts')
+    cart_items = models.JSONField(default=dict, blank=True, null=True)
     quantity = models.IntegerField(default=1)
 
     def __str__(self):

@@ -92,16 +92,46 @@ def add_to_cart(request, productid, userid=None):
     if request.method == 'POST':
         userid = request.session.get('userid') or userid
         if not userid:
-            return messages.error(request,"User Not Found.")
+            messages.error(request, "User Not Found.")
+            return redirect('product_with_userid', userid=userid)
+
         try:
             user = User.objects.get(userid=userid)
             product = Product.objects.get(productid=productid)
-            if user and product:
-                cart_item = Cart.objects.create(
-                user=user,
-                product=product
+            cart = Cart.objects.filter(user=user).first()
+
+            if not cart:
+                cart = Cart.objects.create(
+                    user=user,
+                    product=product,
+                    cart_items={str(product.productid): {
+                        "name":product.name,
+                        "product_image": str(product.product_image),
+                        "description" :product.description,
+                        "price": str(product.price),
+                        "quantity": 1
+                    }}
                 )
-                messages.success(request, f"Product {product.name} added to cart.")
-        except:
-            messages.error(request,"Error adding product to cart.")  
-    return redirect('product_with_userid',userid=userid)
+            else:
+                items = cart.cart_items or {}
+                pid = str(product.productid)
+                if pid in items:
+                    items[pid]['quantity'] += 1
+                else:
+                    items[pid] = {
+                        "name": product.name,
+                        "product_image": str(product.product_image),
+                        "description": product.description,
+                        "price": str(product.price),
+                        "quantity": 1
+                    }
+                cart.cart_items = items
+                cart.save()
+
+            messages.success(request, f"Product {product.name} added to cart.")
+
+        except Exception as e:
+            messages.error(request, f"Error adding product to cart: {str(e)}")
+
+    return redirect('product_with_userid', userid=userid)
+
