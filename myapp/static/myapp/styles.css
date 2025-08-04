@@ -1,4 +1,4 @@
-/* ====== Global Styles ====== */
+/* ====== Gloal Styles ====== */
 * {
   margin: 0;
   padding: 0;
@@ -162,7 +162,7 @@ body {
   transform: translateX(-50%) scale(0.9);
   opacity: 0;
   transition: opacity 0.3s ease, transform 0.3s ease;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
 }
 
@@ -179,7 +179,7 @@ body {
   background-color: #f9f9f9;
   border-radius: 12px;
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 
 .profile-container h2 {
@@ -234,6 +234,43 @@ body {
   border: 1px solid #ccc;
 }
 
+.btn {
+  padding: 8px 16px;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  font-weight: 600;
+  transition: background-color 0.2s;
+}
+
+.btn-add {
+  background-color: #28a745;
+  color: white;
+}
+
+.btn-add:hover {
+  background-color: #218838;
+}
+
+.btn-edit {
+  background-color: #ffc107;
+  color: black;
+}
+
+.btn-edit:hover {
+  background-color: #e0a800;
+}
+
+.btn-buy {
+  background-color: #007bff;
+  color: white;
+}
+
+.btn-buy:hover {
+  background-color: #0056b3;
+}
+
 .upload-btn {
   padding: 8px 18px;
   background-color: #007bff;
@@ -264,7 +301,6 @@ body {
 .back-button:hover {
   background-color: #5a6268;
 }
-
 
 /* ====== Login Section ======*/
 .login-section {
@@ -339,6 +375,143 @@ body {
   text-decoration: underline;
 }
 
+.cart-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  margin-bottom: 40px;
+}
+
+/* Updated layout for each card to be landscape */
+.cart-card {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  padding: 20px;
+  transition: transform 0.2s ease;
+}
+
+.cart-card:hover {
+  transform: scale(1.01);
+}
+
+.cart-image {
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 8px;
+  flex-shrink: 0;
+  margin-right: 20px;
+}
+
+.cart-details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.cart-details h3 {
+  margin: 0 0 5px 0;
+  color: #111;
+  font-size: 1.3rem;
+}
+
+.cart-details p {
+  font-size: 0.95rem;
+  margin: 5px 0;
+  color: #555;
+}
+
+.quantity-control {
+  display: flex;
+  align-items: center;
+  margin: 10px 0;
+}
+
+.qty-btn {
+  background-color: #eee;
+  border: none;
+  padding: 5px 10px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  border-radius: 4px;
+  margin: 0 5px;
+}
+
+.qty-input {
+  width: 40px;
+  text-align: center;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.cart-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.cart-actions .btn {
+  padding: 6px 12px;
+  border: none;
+  font-size: 0.9rem;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.btn-remove {
+  background-color: #f44336;
+  color: white;
+}
+
+.btn-buy {
+  background-color: #e6e61d;
+  color: black;
+}
+
+.cart-total {
+  margin-top: 30px;
+  padding: 20px;
+  background: #f9f9f9;
+  border-top: 2px solid #eee;
+  text-align: center;
+}
+
+.cart-total h3 {
+  font-size: 22px;
+  margin-bottom: 15px;
+}
+
+.btn-buy-all {
+  padding: 12px 25px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.btn-buy-all:hover {
+  background-color: #218838;
+}
+
+.empty-cart {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #777;
+}
+
+
+
 /* ====== Products ====== */
 .products {
   padding: 4rem 2rem;
@@ -407,9 +580,9 @@ body {
 
 /* ====== Error message ====== */
 .error-message {
-  color: #d8000c;              /* Red text */
-  background-color: #ffbaba;   /* Light red background */
-  border: 1px solid #d8000c;   /* Matching red border */
+  color: #d8000c; /* Red text */
+  background-color: #ffbaba; /* Light red background */
+  border: 1px solid #d8000c; /* Matching red border */
   padding: 10px 15px;
   margin: 10px 0;
   border-radius: 4px;
@@ -467,7 +640,6 @@ input:focus {
   background: #ff4f4f;
 }
 
-
 /* ====== Responsive ====== */
 @media (max-width: 768px) {
   .navbar {
@@ -502,4 +674,3 @@ input:focus {
     font-size: 0.95rem;
   }
 }
-

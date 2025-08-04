@@ -1,27 +1,121 @@
 {% extends 'base/base.html' %}
-
+{% load static %}
 {% block title %}Cart - ShopMate{% endblock %}
-
 {% block content %}
-{% if cart_items %}
-  {% with cart=cart_items.0.cart_items %}
-    <section class="products">
-      <div class="product-grid">
-        {% for product_id, product in cart.items %}
-          <div class="product-card">
-            <img src="{{ MEDIA_URL }}{{ product.product_image }}" alt="{{ product.name }}" />
-            <h3>{{ product.name }}</h3>
-            <p>₹{{ product.price }}</p>
-            <p>{{ product.description }}</p>
-            <p>Quantity: {{ product.quantity }}</p>
-          </div>
-        {% endfor %}
-      </div>
-    </section>
-  {% endwith %}
-{% else %}
-  <p>Your cart is empty.</p>
-{% endif %}
 
+<section class="cart-section">
+  <h2>Your Shopping Cart</h2>
+
+  {% if cart_items %}
+  {% with cart=cart_items.0.cart_items %}
+  <div class="cart-grid">
+    {% for product_id, product in cart.items %}
+    <div class="cart-card">
+      <img
+        src="{{ MEDIA_URL }}{{ product.product_image }}"
+        alt="{{ product.name }}"
+        class="cart-image"
+      />
+      <div class="cart-details">
+        <h3>{{ product.name }}</h3>
+        <p>{{ product.description }}</p>
+        <p>Price: ₹<span class="price">{{ product.price }}</span></p>
+        <p class="subtotal">Subtotal: ₹<span class="line-total">{{ product.price|floatformat:2 }}</span></p>
+
+        <!-- Quantity Controls -->
+        <div class="quantity-control">
+          <button class="qty-btn btn-minus">−</button>
+          <input
+            type="text"
+            value="{{ product.quantity }}"
+            class="qty-input"
+            readonly
+          />
+          <button class="qty-btn btn-plus">+</button>
+        </div>
+
+        <!-- Actions -->
+        {% if userid %}
+        <div class="cart-actions">
+          <form
+            method="post"
+            action="{% url 'remove_from_cart' userid=userid productid=product_id %}"
+          >
+            {% csrf_token %}
+            <button type="submit" class="btn btn-remove">Remove</button>
+          </form>
+          {% endif %}
+          <form method="post" action="{% url 'buy_now' %}">
+            {% csrf_token %}
+            <input type="hidden" name="product_id" value="{{ product_id }}" />
+            <button type="submit" class="btn btn-buy">Buy Now</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <!-- Total Section -->
+  <div class="cart-total">
+    <h3>Total Amount: ₹<span id="total-amount">0</span></h3>
+    <form method="post" action="{% url 'buy_now' %}">
+      {% csrf_token %}
+      <input type="hidden" name="user_id" value="{{ userid }}">
+      <button type="submit" class="btn btn-buy-all">Buy All Products</button>
+    </form>
+  </div>
+  {% endwith %}
+  {% else %}
+  <p class="empty-cart">Your cart is empty.</p>
+  {% endif %}
+</section>
+
+<!-- JS for quantity & total calculation -->
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const minusButtons = document.querySelectorAll(".btn-minus");
+    const plusButtons = document.querySelectorAll(".btn-plus");
+
+    function updateTotals() {
+      let total = 0;
+      document.querySelectorAll(".cart-card").forEach((card) => {
+        const price = parseFloat(card.querySelector(".price").textContent);
+        const quantityInput = card.querySelector(".qty-input");
+        const quantity = parseInt(quantityInput.value);
+        const lineTotal = price * quantity;
+
+        // Update subtotal per item
+        card.querySelector(".line-total").textContent = lineTotal.toFixed(2);
+
+        total += lineTotal;
+      });
+
+      document.getElementById("total-amount").textContent = total.toFixed(2);
+    }
+
+    minusButtons.forEach((btn) => {
+      btn.addEventListener("click", function () {
+        const input = this.parentElement.querySelector(".qty-input");
+        let val = parseInt(input.value);
+        if (val > 1) {
+          input.value = val - 1;
+          updateTotals();
+        }
+      });
+    });
+
+    plusButtons.forEach((btn) => {
+      btn.addEventListener("click", function () {
+        const input = this.parentElement.querySelector(".qty-input");
+        let val = parseInt(input.value);
+        input.value = val + 1;
+        updateTotals();
+      });
+    });
+
+    updateTotals(); // Initialize totals on page load
+  });
+</script>
 
 {% endblock %}

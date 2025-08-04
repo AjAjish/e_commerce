@@ -5,7 +5,10 @@ from . models import User,Product,Cart
 
 
 # Create your views here.
-def base(request):
+def base(request,userid=None):
+    userid = request.session.get('userid')
+    if userid:
+        return render(request,'base.html',{'userid':userid})
     return render(request, 'base.html')
 
 def home(request, userid=None):
@@ -57,9 +60,14 @@ def login(request):
 
 def product_page(request,userid=None):
     userid = request.session.get('userid')
-    products = Product.objects.all()
-    return render(request, 'product.html', {'userid': userid,'products': products})
-
+    if userid:
+        products = Product.objects.all()
+        return render(request, 'product.html', {'userid': userid,'products': products})
+    if userid is None:
+        products = Product.objects.all()
+        render(request, 'product.html', {'userid':None,'products': products})
+    return render(request, 'product.html',{'products': products})
+    
 def cart(request,userid=None):
     userid = request.session.get('userid')
     if userid:
@@ -108,7 +116,7 @@ def add_to_cart(request, productid, userid=None):
                         "name":product.name,
                         "product_image": str(product.product_image),
                         "description" :product.description,
-                        "price": str(product.price),
+                        "price": int(product.price),
                         "quantity": 1
                     }}
                 )
@@ -116,13 +124,15 @@ def add_to_cart(request, productid, userid=None):
                 items = cart.cart_items or {}
                 pid = str(product.productid)
                 if pid in items:
+                    cur_price = int(items[pid]['price'])
+                    items[pid]['price'] = cur_price + int(product.price)
                     items[pid]['quantity'] += 1
                 else:
                     items[pid] = {
                         "name": product.name,
                         "product_image": str(product.product_image),
                         "description": product.description,
-                        "price": str(product.price),
+                        "price": int(product.price),
                         "quantity": 1
                     }
                 cart.cart_items = items
@@ -135,3 +145,33 @@ def add_to_cart(request, productid, userid=None):
 
     return redirect('product_with_userid', userid=userid)
 
+def buy_now(request):
+    return render(request, 'order.html')
+
+def remover_from_cart(request, productid, userid=None):
+    if request.method == 'POST':
+        userid = request.session.get('userid') or userid
+        if not userid:
+            messages.error(request, "User Not Found.")
+            return redirect('cart_with_userid', userid=userid)
+
+        try:
+            user = User.objects.get(userid=userid)
+            cart = Cart.objects.filter(user=user).first()
+            if cart:
+                items = cart.cart_items or {}
+                pid = str(productid)
+                if pid in items:
+                    del items[pid]
+                    cart.cart_items = items
+                    cart.save()
+                    messages.success(request, "Product removed from cart.")
+                else:
+                    messages.error(request, "Product not found in cart.")
+            else:
+                messages.error(request, "Cart not found.")
+
+        except Exception as e:
+            messages.error(request, f"Error removing product from cart: {str(e)}")
+
+    return redirect('cart_with_userid', userid=userid)

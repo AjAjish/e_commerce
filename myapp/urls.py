@@ -5,6 +5,7 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('',views.home, name='base'),
+    path('base/<uuid:userid>/',views.home,name='base_with_userid'),
     path('home/',views.home, name='home'),
     path('home/<uuid:userid>/', views.home, name='home_with_userid'),
     path('register/', views.register, name='register'),
@@ -16,6 +17,8 @@ urlpatterns = [
     path('logout/', views.logout, name='logout'),
     path('profile_view/<uuid:userid>/', views.profile_view, name='profile_view'),
     path('add_to_cart/<uuid:userid>/<uuid:productid>/', views.add_to_cart, name='add_to_cart'),
+    path('remove_from_cart/<uuid:userid>/<uuid:productid>/', views.remover_from_cart, name='remove_from_cart'),
+    path('order/',views.buy_now,name='buy_now')
 ]
 
 if settings.DEBUG:

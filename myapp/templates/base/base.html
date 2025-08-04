@@ -17,8 +17,13 @@
     <!-- Navigation Bar -->
     <header>
       <nav class="navbar">
+        {% if userid %}
+        <div class="logo"><a href="{% url 'base_with_userid' userid %}">ShopMate</a></div>
+        <ul class="nav-links">
+        {% else %}
         <div class="logo"><a href="{% url 'base' %}">ShopMate</a></div>
         <ul class="nav-links">
+        {% endif %}
           {% if userid %}
           <li><a href="{% url 'product_with_userid' userid %}">Products</a></li>
           <li><a href="{% url 'cart_with_userid' userid %}">Cart</a></li>

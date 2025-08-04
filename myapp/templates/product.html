@@ -21,7 +21,8 @@
       <h3>{{ product.name }}</h3>
       <p>₹{{ product.price }}</p>
       <p>{{ product.description }}</p>
-
+      
+      {% if userid %}
       <form
         method="post"
         action="{% url 'add_to_cart' userid=userid productid=product.productid %}"
@@ -30,6 +31,7 @@
         <input type="hidden" name="productid" value="{{ product.productid }}" />
         <button type="submit" class="btn small">Add to Cart</button>
       </form>
+      {% endif %}
     </div>
     {% endfor %}
   </div>
