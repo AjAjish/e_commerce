@@ -18,7 +18,9 @@ urlpatterns = [
     path('profile_view/<uuid:userid>/', views.profile_view, name='profile_view'),
     path('add_to_cart/<uuid:userid>/<uuid:productid>/', views.add_to_cart, name='add_to_cart'),
     path('remove_from_cart/<uuid:userid>/<uuid:productid>/', views.remover_from_cart, name='remove_from_cart'),
-    path('order/',views.buy_now,name='buy_now')
+    path('order/',views.buy_now,name='buy_now'),
+    path('buy_all_products/<uuid:userid>/', views.buy_all_products, name='buy_all_products'),
+    path('buy_single_product/<uuid:userid>/<uuid:productid>/', views.buy_single_product, name='buy_single_product')
 ]
 
 if settings.DEBUG:

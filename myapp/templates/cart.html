@@ -45,9 +45,13 @@
             <button type="submit" class="btn btn-remove">Remove</button>
           </form>
           {% endif %}
-          <form method="post" action="{% url 'buy_now' %}">
+
+          <!-- Buy Now Form with Quantity -->
+          <form method="post" action="{% url 'buy_single_product' userid=userid productid=product_id %}" class="buy-now-form">
             {% csrf_token %}
             <input type="hidden" name="product_id" value="{{ product_id }}" />
+            <input type="hidden" name="quantity" class="hidden-quantity" value="{{ product.quantity }}">
+            <input type="hidden" name="price" value="{{ product.price }}">
             <button type="submit" class="btn btn-buy">Buy Now</button>
           </form>
         </div>
@@ -59,7 +63,7 @@
   <!-- Total Section -->
   <div class="cart-total">
     <h3>Total Amount: ₹<span id="total-amount">0</span></h3>
-    <form method="post" action="{% url 'buy_now' %}">
+    <form method="post" action="{% url 'buy_all_products' userid=userid %}">
       {% csrf_token %}
       <input type="hidden" name="user_id" value="{{ userid }}">
       <button type="submit" class="btn btn-buy-all">Buy All Products</button>
@@ -71,7 +75,7 @@
   {% endif %}
 </section>
 
-<!-- JS for quantity & total calculation -->
+<!-- JS for quantity & total calculation + form hidden input sync -->
 <script>
   document.addEventListener("DOMContentLoaded", function () {
     const minusButtons = document.querySelectorAll(".btn-minus");
@@ -88,6 +92,10 @@
         // Update subtotal per item
         card.querySelector(".line-total").textContent = lineTotal.toFixed(2);
 
+        // Update hidden quantity input in Buy Now form
+        const hiddenQty = card.querySelector(".hidden-quantity");
+        if (hiddenQty) hiddenQty.value = quantity;
+
         total += lineTotal;
       });
 
@@ -96,7 +104,8 @@
 
     minusButtons.forEach((btn) => {
       btn.addEventListener("click", function () {
-        const input = this.parentElement.querySelector(".qty-input");
+        const card = this.closest(".cart-card");
+        const input = card.querySelector(".qty-input");
         let val = parseInt(input.value);
         if (val > 1) {
           input.value = val - 1;
@@ -107,14 +116,15 @@
 
     plusButtons.forEach((btn) => {
       btn.addEventListener("click", function () {
-        const input = this.parentElement.querySelector(".qty-input");
+        const card = this.closest(".cart-card");
+        const input = card.querySelector(".qty-input");
         let val = parseInt(input.value);
         input.value = val + 1;
         updateTotals();
       });
     });
 
-    updateTotals(); // Initialize totals on page load
+    updateTotals(); // Initial call
   });
 </script>
 

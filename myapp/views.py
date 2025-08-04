@@ -1,7 +1,6 @@
 from django.shortcuts import render , redirect
 from django.contrib import messages
-from . models import User,Product,Cart
-
+from . models import User,Product,Cart,Order
 
 
 # Create your views here.
@@ -175,3 +174,57 @@ def remover_from_cart(request, productid, userid=None):
             messages.error(request, f"Error removing product from cart: {str(e)}")
 
     return redirect('cart_with_userid', userid=userid)
+
+
+def buy_all_products(request, userid=None):
+    if request.method == 'POST':
+        userid = request.session.get('userid') or userid
+        if not userid:
+            messages.error(request, "User Not Found.")
+            return redirect('cart_with_userid', userid=userid)
+
+        try:
+            user = User.objects.get(userid=userid)
+            cart = Cart.objects.filter(user=user).first()
+            if cart and cart.cart_items:
+                for productid, item in cart.cart_items.items():
+                    product = Product.objects.get(productid=productid)
+                    Order.objects.create(
+                        user=user,
+                        product=product,
+                        quantity=item['quantity']
+                    )
+                cart.cart_items.clear()
+                cart.save()
+                messages.success(request, "All products purchased successfully.")
+            else:
+                messages.error(request, "Cart is empty.")
+
+        except Exception as e:
+            messages.error(request, f"Error purchasing products: {str(e)}")
+
+    return redirect('cart_with_userid', userid=userid)
+
+def buy_single_product(request, productid, userid=None):
+    if request.method == 'POST':
+        userid = request.session.get('userid') or userid
+        if not userid:
+            messages.error(request, "User Not Found.")
+            return redirect('product_with_userid', userid=userid)
+
+        try:
+            user = User.objects.get(userid=userid)
+            product = Product.objects.get(productid=productid)
+            quantity = int(request.POST.get('quantity', 1))
+
+            Order.objects.create(
+                user=user,
+                product=product,
+                quantity=quantity
+            )
+            messages.success(request, f"Product {product.name} (x{quantity}) purchased successfully.")
+
+        except Exception as e:
+            messages.error(request, f"Error purchasing product: {str(e)}")
+
+    return redirect('product_with_userid', userid=userid)
