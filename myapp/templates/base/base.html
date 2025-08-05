@@ -55,10 +55,17 @@
 
     <!-- Toast Message -->
     {% if messages %}
-    <div id="toast" class="toast">
-      {% for message in messages %} {{ message }} {% endfor %}
-    </div>
+      <div id="toast" class="toast show">
+        <span class="toast-icon"></span>
+        <span class="toast-message">
+          {% for message in messages %}
+            {{ message }}
+          {% endfor %}
+        </span>
+        <button class="close-btn" onclick="hideToast()"></button>
+      </div>
     {% endif %}
+
 
     <!-- Footer -->
     <footer>
@@ -92,13 +99,15 @@
       });
 
       // Auto-show toast
-      const toast = document.getElementById("toast");
-      if (toast) {
-        toast.classList.add("show");
-        setTimeout(() => {
-          toast.classList.remove("show");
-        }, 5000); // 1 second
-      }
+      document.addEventListener("DOMContentLoaded", function () {
+        const toast = document.getElementById("toast");
+        if (toast) {
+          toast.classList.add("show");
+          setTimeout(() => {
+            toast.classList.remove("show");
+          }, 1000); // auto-hide after 1 second
+        }
+      });
 
       function goBack() {
         window.history.back();

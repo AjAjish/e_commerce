@@ -275,3 +275,5 @@ def list_order_details(request,userid=None):
         user = User.objects.get(userid=userid)
         orders = Order.objects.filter(user=user).all()
         return render(request, 'order_details.html', {'userid': userid, 'orders': orders})
+    
+    
