@@ -40,6 +40,7 @@
               Profile <span id="arrow">⯆</span>
             </button>
             <div class="dropdown-menu" id="profileMenu">
+              <a href="{% url 'list_order_details' userid %}">My Orders</a>
               <a href="{% url 'profile_view' userid %}">My Profile</a>
               <a href="{% url 'logout' %}">Logout</a>
             </div>
@@ -96,7 +97,7 @@
         toast.classList.add("show");
         setTimeout(() => {
           toast.classList.remove("show");
-        }, 1000); // 1 second
+        }, 5000); // 1 second
       }
 
       function goBack() {

@@ -20,7 +20,8 @@ urlpatterns = [
     path('remove_from_cart/<uuid:userid>/<uuid:productid>/', views.remover_from_cart, name='remove_from_cart'),
     path('order/',views.buy_now,name='buy_now'),
     path('buy_all_products/<uuid:userid>/', views.buy_all_products, name='buy_all_products'),
-    path('buy_single_product/<uuid:userid>/<uuid:productid>/', views.buy_single_product, name='buy_single_product')
+    path('buy_single_product/<uuid:userid>/<uuid:productid>/', views.buy_single_product, name='buy_single_product'),
+    path('order_details/<uuid:userid>/', views.list_order_details, name='list_order_details'),
 ]
 
 if settings.DEBUG:

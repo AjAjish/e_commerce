@@ -1,0 +1,41 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block title %}Order Details - ShopMate{% endblock %}
+
+{% block content %}
+<section class="order-section">
+  <h2>Your Orders</h2>
+
+  <div class="back-btn-container">
+    <a href="javascript:void(0);" class="back-button" onclick="goBack()">← Go Back</a>
+ </div>
+
+  {% if orders %}
+    {% for order in orders %}
+    <div class="order-card">
+      <h3>Order ID: {{ order.orderid }}</h3>
+      <p><strong>Date:</strong> {{ order.order_date|date:"F j, Y, g:i a" }}</p>
+
+      {% for productid, item in order.order_items.items %}
+      <div class="order-item">
+        <img
+          src="{{ MEDIA_URL }}{{ item.product_image }}"
+          alt="{{ item.name }}"
+          class="order-product-image"
+        />
+        <div class="order-details">
+          <h4>{{ item.name }}</h4>
+          <p>{{ item.description }}</p>
+          <p><strong>Price:</strong> ₹{{ item.price }}</p>
+          <p><strong>Quantity:</strong> {{ item.quantity }}</p>
+          <!-- <p><strong>Total:</strong> ₹{{ item.price|floatformat:2|floatformat:"0" }}</p> -->
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% endfor %}
+  {% else %}
+    <p class="no-orders">You have no orders yet.</p>
+  {% endif %}
+</section>
+{% endblock %}

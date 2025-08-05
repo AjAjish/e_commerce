@@ -44,8 +44,8 @@ class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='orders')
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='ordered_items')
     quantity = models.IntegerField(default=1)
+    order_items = models.JSONField(default=dict, blank=True, null=True)
     order_date = models.DateTimeField(auto_now_add=True)
-    status = models.CharField(max_length=20, default='Pending')
 
     def __str__(self):
-        return f"Order {self.orderid} - User {self.user.email} - Product {self.product.name} x{self.quantity} - {self.status}"
+        return f"Order {self.orderid} - User {self.user.email} - Product {self.product.name} x{self.quantity} "

@@ -10,7 +10,7 @@
   {% with cart=cart_items.0.cart_items %}
   <div class="cart-grid">
     {% for product_id, product in cart.items %}
-    <div class="cart-card">
+    <div class="cart-card" data-product-id="{{ product_id }}">
       <img
         src="{{ MEDIA_URL }}{{ product.product_image }}"
         alt="{{ product.name }}"
@@ -20,7 +20,9 @@
         <h3>{{ product.name }}</h3>
         <p>{{ product.description }}</p>
         <p>Price: ₹<span class="price">{{ product.price }}</span></p>
-        <p class="subtotal">Subtotal: ₹<span class="line-total">{{ product.price|floatformat:2 }}</span></p>
+        <p class="subtotal">
+          Subtotal: ₹<span class="line-total">{{ product.price|floatformat:2 }}</span>
+        </p>
 
         <!-- Quantity Controls -->
         <div class="quantity-control">
@@ -44,16 +46,20 @@
             {% csrf_token %}
             <button type="submit" class="btn btn-remove">Remove</button>
           </form>
-          {% endif %}
+        {% endif %}
 
-          <!-- Buy Now Form with Quantity -->
-          <form method="post" action="{% url 'buy_single_product' userid=userid productid=product_id %}" class="buy-now-form">
-            {% csrf_token %}
-            <input type="hidden" name="product_id" value="{{ product_id }}" />
-            <input type="hidden" name="quantity" class="hidden-quantity" value="{{ product.quantity }}">
-            <input type="hidden" name="price" value="{{ product.price }}">
-            <button type="submit" class="btn btn-buy">Buy Now</button>
-          </form>
+        <!-- Buy Now Form -->
+        <form
+          method="post"
+          action="{% url 'buy_single_product' userid=userid productid=product_id %}"
+          class="buy-now-form"
+        >
+          {% csrf_token %}
+          <input type="hidden" name="product_id" value="{{ product_id }}" />
+          <input type="hidden" name="quantity" class="hidden-quantity" value="{{ product.quantity }}">
+          <input type="hidden" name="price" value="{{ product.price }}">
+          <button type="submit" class="btn btn-buy">Buy Now</button>
+        </form>
         </div>
       </div>
     </div>
@@ -63,9 +69,10 @@
   <!-- Total Section -->
   <div class="cart-total">
     <h3>Total Amount: ₹<span id="total-amount">0</span></h3>
-    <form method="post" action="{% url 'buy_all_products' userid=userid %}">
+    <form method="post" action="{% url 'buy_all_products' userid=userid %}" id="buy-all-form">
       {% csrf_token %}
       <input type="hidden" name="user_id" value="{{ userid }}">
+      <!-- Dynamic quantity inputs will be injected by JS -->
       <button type="submit" class="btn btn-buy-all">Buy All Products</button>
     </form>
   </div>
@@ -75,7 +82,7 @@
   {% endif %}
 </section>
 
-<!-- JS for quantity & total calculation + form hidden input sync -->
+<!-- JavaScript -->
 <script>
   document.addEventListener("DOMContentLoaded", function () {
     const minusButtons = document.querySelectorAll(".btn-minus");
@@ -83,13 +90,14 @@
 
     function updateTotals() {
       let total = 0;
+
       document.querySelectorAll(".cart-card").forEach((card) => {
         const price = parseFloat(card.querySelector(".price").textContent);
         const quantityInput = card.querySelector(".qty-input");
         const quantity = parseInt(quantityInput.value);
         const lineTotal = price * quantity;
 
-        // Update subtotal per item
+        // Update line total
         card.querySelector(".line-total").textContent = lineTotal.toFixed(2);
 
         // Update hidden quantity input in Buy Now form
@@ -102,29 +110,48 @@
       document.getElementById("total-amount").textContent = total.toFixed(2);
     }
 
+    function changeQuantity(button, delta) {
+      const card = button.closest(".cart-card");
+      const qtyInput = card.querySelector(".qty-input");
+      let currentQty = parseInt(qtyInput.value);
+      const newQty = currentQty + delta;
+
+      if (newQty >= 1) {
+        qtyInput.value = newQty;
+        updateTotals();
+      }
+    }
+
     minusButtons.forEach((btn) => {
-      btn.addEventListener("click", function () {
-        const card = this.closest(".cart-card");
-        const input = card.querySelector(".qty-input");
-        let val = parseInt(input.value);
-        if (val > 1) {
-          input.value = val - 1;
-          updateTotals();
-        }
-      });
+      btn.addEventListener("click", () => changeQuantity(btn, -1));
     });
 
     plusButtons.forEach((btn) => {
-      btn.addEventListener("click", function () {
-        const card = this.closest(".cart-card");
-        const input = card.querySelector(".qty-input");
-        let val = parseInt(input.value);
-        input.value = val + 1;
-        updateTotals();
+      btn.addEventListener("click", () => changeQuantity(btn, +1));
+    });
+
+    // Inject product quantities into the Buy All form before submission
+    document.getElementById("buy-all-form").addEventListener("submit", function () {
+      // Clear previous injected inputs
+      this.querySelectorAll(".dynamic-product-input").forEach(el => el.remove());
+
+      // Add new ones based on current quantities
+      document.querySelectorAll(".cart-card").forEach((card) => {
+        const productId = card.dataset.productId;
+        const quantity = card.querySelector(".qty-input").value;
+
+        const input = document.createElement("input");
+        input.type = "hidden";
+        input.name = `quantities[${productId}]`;
+        input.value = quantity;
+        input.classList.add("dynamic-product-input");
+
+        this.appendChild(input);
       });
     });
 
-    updateTotals(); // Initial call
+    // Initial total
+    updateTotals();
   });
 </script>
 

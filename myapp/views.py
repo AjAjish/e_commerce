@@ -175,7 +175,6 @@ def remover_from_cart(request, productid, userid=None):
 
     return redirect('cart_with_userid', userid=userid)
 
-
 def buy_all_products(request, userid=None):
     if request.method == 'POST':
         userid = request.session.get('userid') or userid
@@ -187,13 +186,40 @@ def buy_all_products(request, userid=None):
             user = User.objects.get(userid=userid)
             cart = Cart.objects.filter(user=user).first()
             if cart and cart.cart_items:
+                order_items = {}
+                total_price = 0
+
+                # Extract product quantities sent from form
+                quantities = request.POST.getlist('quantities')  # won't work as-is
+                quantities = request.POST.dict()
+                quantity_map = {
+                    k.split('[')[1].rstrip(']'): int(v)
+                    for k, v in quantities.items()
+                    if k.startswith('quantities[')
+                }
+
                 for productid, item in cart.cart_items.items():
                     product = Product.objects.get(productid=productid)
-                    Order.objects.create(
-                        user=user,
-                        product=product,
-                        quantity=item['quantity']
-                    )
+                    quantity = quantity_map.get(str(productid), 1)
+                    price = int(product.price * quantity)
+
+                    order_items[str(product.productid)] = {
+                        "name": item['name'],
+                        "product_image": item['product_image'],
+                        "description": item['description'],
+                        "price": price,
+                        "quantity": quantity
+                    }
+
+                    total_price += price
+
+                Order.objects.create(
+                    user=user,
+                    product=product,
+                    order_items=order_items,
+                    quantity=sum(quantity_map.values()),  # total quantity of all products
+                )
+
                 cart.cart_items.clear()
                 cart.save()
                 messages.success(request, "All products purchased successfully.")
@@ -205,6 +231,8 @@ def buy_all_products(request, userid=None):
 
     return redirect('cart_with_userid', userid=userid)
 
+
+
 def buy_single_product(request, productid, userid=None):
     if request.method == 'POST':
         userid = request.session.get('userid') or userid
@@ -215,16 +243,35 @@ def buy_single_product(request, productid, userid=None):
         try:
             user = User.objects.get(userid=userid)
             product = Product.objects.get(productid=productid)
+            cart = Cart.objects.filter(user=user).first()
             quantity = int(request.POST.get('quantity', 1))
+            price = int(product.price * quantity)
 
             Order.objects.create(
                 user=user,
                 product=product,
-                quantity=quantity
+                order_items={str(product.productid): {
+                    "name": product.name,
+                    "product_image": str(product.product_image),
+                    "description": product.description,
+                    "price": price,
+                    "quantity": quantity
+                    }
+                },
+                
             )
+            cart.cart_items.clear()
+            cart.save()
             messages.success(request, f"Product {product.name} (x{quantity}) purchased successfully.")
 
         except Exception as e:
             messages.error(request, f"Error purchasing product: {str(e)}")
 
     return redirect('product_with_userid', userid=userid)
+
+def list_order_details(request,userid=None):
+    userid = request.session.get('userid')
+    if userid:
+        user = User.objects.get(userid=userid)
+        orders = Order.objects.filter(user=user).all()
+        return render(request, 'order_details.html', {'userid': userid, 'orders': orders})
