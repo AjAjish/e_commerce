@@ -60,8 +60,18 @@ def login(request):
 def product_page(request,userid=None):
     userid = request.session.get('userid')
     if userid:
+
         products = Product.objects.all()
-        return render(request, 'product.html', {'userid': userid,'products': products})
+
+        filter_option = request.GET.get('filter', None)
+        category_option = request.GET.get('category', 'all')
+
+        # category = request.session.get('category')
+        print(f"Category == {category_option}")
+
+        products = product_filter_and_category(filter_option, category_option)
+
+        return render(request, 'product.html', {'userid': userid, 'products': products})
     if userid is None:
         products = Product.objects.all()
         render(request, 'product.html', {'userid':None,'products': products})
@@ -87,8 +97,9 @@ def profile_view(request, userid=None):
     user = User.objects.get(userid=userid)
     if request.method == 'POST':
         profile_pic = request.FILES.get('image')
+        print(f"Profile Picture: {profile_pic}")
         if profile_pic:
-            user.profile_pic = profile_pic
+            user.profile_image = profile_pic
             user.save()
             messages.success(request, 'Profile picture updated successfully!')
         else:
@@ -260,7 +271,8 @@ def buy_single_product(request, productid, userid=None):
                 },
                 
             )
-            cart.cart_items.clear()
+
+            cart.cart_items.pop(str(productid), None)
             cart.save()
             messages.success(request, f"Product {product.name} (x{quantity}) purchased successfully.")
 
@@ -275,5 +287,20 @@ def list_order_details(request,userid=None):
         user = User.objects.get(userid=userid)
         orders = Order.objects.filter(user=user).all()
         return render(request, 'order_details.html', {'userid': userid, 'orders': orders})
-    
-    
+    return render(request,'order_details.html')
+
+
+def product_filter_and_category(filter_option, category_option):
+    products = Product.objects.all()
+
+    # Filter by category if not 'all'
+    if category_option and category_option != "all":
+        products = products.filter(category=category_option)
+
+    # Sort by filter option
+    if filter_option == "low_to_high":
+        products = products.order_by('price')
+    elif filter_option == "high_to_low":
+        products = products.order_by('-price')
+
+    return products

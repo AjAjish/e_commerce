@@ -343,6 +343,56 @@ body {
   background-color: #5a6268;
 }
 
+/* Filter Section */
+.filter-section {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin: 20px 30px;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.filter-section label {
+  font-weight: 500;
+  font-size: 16px;
+  color: #333;
+}
+
+.filter-section select {
+  padding: 8px 14px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  background-color: #fff;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.filter-section select:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 4px rgba(0, 123, 255, 0.3);
+}
+
+/* Responsive adjustment for smaller screens */
+@media (max-width: 600px) {
+  .filter-section {
+    justify-content: center;
+    margin: 15px 10px;
+  }
+
+  .filter-section label {
+    font-size: 14px;
+  }
+
+  .filter-section select {
+    font-size: 13px;
+    padding: 7px 12px;
+  }
+}
+
+
 /* ====== Login Section ======*/
 .login-section {
   min-height: 80vh;

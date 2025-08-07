@@ -1,17 +1,44 @@
-{% extends 'base/base.html' %} {% block title %}Product - ShopMate{% endblock %}
+{% extends 'base/base.html' %}
+{% block title %}Product - ShopMate{% endblock %}
+
 {% block content %}
+<!-- CATEGORY SECTION -->
 <section class="category-section">
   <h2>Categories</h2>
   <div class="categories">
-    <button class="category-btn">All</button>
-    <button class="category-btn">Electronics</button>
-    <button class="category-btn">Fashion</button>
-    <button class="category-btn">Footwear</button>
-    <button class="category-btn">Accessories</button>
-    <button class="category-btn">Home Appliances</button>
+    <form method="get" action="" id="filter-form">
+      <!-- Hidden category input, updated by JS -->
+      <input type="hidden" name="category" id="category-input" value="{{ request.GET.category }}">
+      
+      <!-- Sort Dropdown -->
+      <label for="filter">Sort by:</label>
+      <select name="filter" id="filter" onchange="document.getElementById('filter-form').submit()">
+        <option value="all" {% if request.GET.filter == 'all' %}selected{% endif %}>All</option>
+        <option value="low_to_high" {% if request.GET.filter == 'low_to_high' %}selected{% endif %}>Price: Low to High</option>
+        <option value="high_to_low" {% if request.GET.filter == 'high_to_low' %}selected{% endif %}>Price: High to Low</option>
+      </select>
+
+      <!-- Category Buttons (no category name here) -->
+      <button type="button" class="category-btn {% if request.GET.category == 'all' %}active{% endif %}" onclick="setCategoryAndSubmit('all')">All</button>
+      <button type="button" class="category-btn {% if request.GET.category == 'electronics' %}active{% endif %}" onclick="setCategoryAndSubmit('electronics')">Electronics</button>
+      <button type="button" class="category-btn {% if request.GET.category == 'fashion' %}active{% endif %}" onclick="setCategoryAndSubmit('fashion')">Fashion</button>
+      <button type="button" class="category-btn {% if request.GET.category == 'footwear' %}active{% endif %}" onclick="setCategoryAndSubmit('footwear')">Footwear</button>
+      <button type="button" class="category-btn {% if request.GET.category == 'accessories' %}active{% endif %}" onclick="setCategoryAndSubmit('accessories')">Accessories</button>
+      <button type="button" class="category-btn {% if request.GET.category == 'home_appliances' %}active{% endif %}" onclick="setCategoryAndSubmit('home_appliances')">Home Appliances</button>
+    </form>
   </div>
 </section>
 
+<script>
+  function setCategoryAndSubmit(category) {
+    document.getElementById('category-input').value = category;
+    document.getElementById('filter-form').submit();
+  }
+</script>
+
+
+
+<!-- PRODUCTS -->
 {% if products %}
 <section class="products">
   <div class="product-grid">
@@ -36,4 +63,5 @@
     {% endfor %}
   </div>
 </section>
-{% endif %} {% endblock %}
+{% endif %}
+{% endblock %}
