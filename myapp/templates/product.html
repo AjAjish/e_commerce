@@ -11,12 +11,15 @@
       <input type="hidden" name="category" id="category-input" value="{{ request.GET.category }}">
       
       <!-- Sort Dropdown -->
-      <label for="filter">Sort by:</label>
-      <select name="filter" id="filter" onchange="document.getElementById('filter-form').submit()">
-        <option value="all" {% if request.GET.filter == 'all' %}selected{% endif %}>All</option>
-        <option value="low_to_high" {% if request.GET.filter == 'low_to_high' %}selected{% endif %}>Price: Low to High</option>
-        <option value="high_to_low" {% if request.GET.filter == 'high_to_low' %}selected{% endif %}>Price: High to Low</option>
+      <form method="get" action="" id="filter-form" class="filter-sort-wrapper">
+        <label for="filter">Sort by:</label>
+        <select name="filter" id="filter" onchange="document.getElementById('filter-form').submit()">
+          <option value="all" {% if request.GET.filter == 'all' %}selected{% endif %}>All</option>
+          <option value="low_to_high" {% if request.GET.filter == 'low_to_high' %}selected{% endif %}>Price: Low to High</option>
+          <option value="high_to_low" {% if request.GET.filter == 'high_to_low' %}selected{% endif %}>Price: High to Low</option>
       </select>
+      </form>
+
 
       <!-- Category Buttons (no category name here) -->
       <button type="button" class="category-btn {% if request.GET.category == 'all' %}active{% endif %}" onclick="setCategoryAndSubmit('all')">All</button>
@@ -48,6 +51,7 @@
       <h3>{{ product.name }}</h3>
       <p>₹{{ product.price }}</p>
       <p>{{ product.description }}</p>
+      <p>{{ product.stock }}</p>
       
       {% if userid %}
       <form
@@ -56,7 +60,20 @@
       >
         {% csrf_token %}
         <input type="hidden" name="productid" value="{{ product.productid }}" />
+        {% if product.stock != 0 %}
         <button type="submit" class="btn small">Add to Cart</button>
+        {% endif %}
+        {% if product.stock == 0 %}
+          <svg width="24" height="24" viewBox="0 0 64 64" fill="none">
+            <path d="M8 8h6l4 24h28l4-16H18" stroke="#333" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="22" cy="52" r="3" fill="#333"/>
+            <circle cx="46" cy="52" r="3" fill="#333"/>
+            <circle cx="50" cy="14" r="8" fill="#e74c3c"/>
+            <line x1="46" y1="10" x2="54" y2="18" stroke="white" stroke-width="2" stroke-linecap="round"/>
+            <line x1="54" y1="10" x2="46" y2="18" stroke="white" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          <span style="font-family: 'Segoe UI', sans-serif; font-size: 14px;">Out of Stock</span>
+        {% endif %}
       </form>
       {% endif %}
     </div>

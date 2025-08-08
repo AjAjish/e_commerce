@@ -172,7 +172,6 @@ body {
   z-index: 9999; /* should be higher than navbar’s z-index */
 }
 
-
 .toast.show {
   opacity: 1;
   transform: translateY(0) scale(1);
@@ -210,8 +209,6 @@ body {
 .toast .close-btn:hover {
   opacity: 1;
 }
-
-
 
 .profile-container {
   max-width: 600px;
@@ -343,36 +340,67 @@ body {
   background-color: #5a6268;
 }
 
-/* Filter Section */
-.filter-section {
+/* Immersive Sort Dropdown Styles */
+.filter-sort-wrapper {
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  margin: 20px 30px;
-  gap: 10px;
+  margin: 30px 40px 20px;
+  gap: 12px;
   flex-wrap: wrap;
+  font-family: "Poppins", sans-serif;
 }
 
-.filter-section label {
-  font-weight: 500;
+.filter-sort-wrapper label {
   font-size: 16px;
-  color: #333;
+  color: #444;
+  font-weight: 500;
 }
 
-.filter-section select {
-  padding: 8px 14px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
+.filter-sort-wrapper select {
+  padding: 10px 16px;
   font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
   background-color: #fff;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  color: #333;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
   cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg width='14' height='10' viewBox='0 0 14 10' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L7 9L13 1' stroke='%23333' stroke-width='2'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 14px;
+  padding-right: 36px;
 }
 
-.filter-section select:focus {
+.filter-sort-wrapper select:hover {
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.15);
+}
+
+.filter-sort-wrapper select:focus {
   outline: none;
   border-color: #007bff;
-  box-shadow: 0 0 4px rgba(0, 123, 255, 0.3);
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .filter-sort-wrapper {
+    justify-content: center;
+    margin: 20px 10px;
+  }
+
+  .filter-sort-wrapper label {
+    font-size: 14px;
+  }
+
+  .filter-sort-wrapper select {
+    font-size: 13px;
+    padding: 8px 14px;
+  }
 }
 
 /* Responsive adjustment for smaller screens */
@@ -391,7 +419,6 @@ body {
     padding: 7px 12px;
   }
 }
-
 
 /* ====== Login Section ======*/
 .login-section {
@@ -601,8 +628,6 @@ body {
   color: #777;
 }
 
-
-
 /* ====== Products ====== */
 .products {
   padding: 4rem 2rem;
@@ -716,80 +741,80 @@ input:focus {
 /* ====== Order Section ====== */
 
 .order-section {
-    max-width: 900px;
-    margin: 2rem auto;
-    padding: 1rem;
-    font-family: 'Segoe UI', sans-serif;
-  }
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 1rem;
+  font-family: "Segoe UI", sans-serif;
+}
 
-  .order-section h2 {
-    text-align: center;
-    margin-bottom: 2rem;
-    font-size: 2rem;
-    color: #333;
-  }
+.order-section h2 {
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 2rem;
+  color: #333;
+}
 
-  .order-card {
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
-    padding: 1.5rem;
-    margin-bottom: 2rem;
-    background-color: #f9f9f9;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-  }
+.order-card {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
 
-  .order-card h3 {
-    margin-top: 0;
-    color: #444;
-    font-size: 1.2rem;
-    border-bottom: 1px solid #ddd;
-    padding-bottom: 0.5rem;
-  }
+.order-card h3 {
+  margin-top: 0;
+  color: #444;
+  font-size: 1.2rem;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 0.5rem;
+}
 
-  .order-item {
-    display: flex;
-    align-items: flex-start;
-    gap: 1rem;
-    margin-top: 1.2rem;
-    padding-top: 1.2rem;
-    border-top: 1px dashed #ccc;
-  }
+.order-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-top: 1.2rem;
+  padding-top: 1.2rem;
+  border-top: 1px dashed #ccc;
+}
 
-  .order-product-image {
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
-    border-radius: 6px;
-    border: 1px solid #ddd;
-  }
+.order-product-image {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+}
 
-  .order-details {
-    flex: 1;
-  }
+.order-details {
+  flex: 1;
+}
 
-  .order-details h4 {
-    margin: 0 0 0.3rem;
-    font-size: 1.1rem;
-    color: #222;
-  }
+.order-details h4 {
+  margin: 0 0 0.3rem;
+  font-size: 1.1rem;
+  color: #222;
+}
 
-  .order-details p {
-    margin: 0.2rem 0;
-    font-size: 0.95rem;
-    color: #555;
-  }
+.order-details p {
+  margin: 0.2rem 0;
+  font-size: 0.95rem;
+  color: #555;
+}
 
-  .order-details p strong {
-    color: #000;
-  }
+.order-details p strong {
+  color: #000;
+}
 
-  .no-orders {
-    text-align: center;
-    color: #888;
-    font-style: italic;
-    margin-top: 3rem;
-    font-size: 1.1rem;
-  }
+.no-orders {
+  text-align: center;
+  color: #888;
+  font-style: italic;
+  margin-top: 3rem;
+  font-size: 1.1rem;
+}
 
 /* ====== Scrollbar ====== */
 ::-webkit-scrollbar {

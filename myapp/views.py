@@ -59,21 +59,19 @@ def login(request):
 
 def product_page(request,userid=None):
     userid = request.session.get('userid')
+    filter_option = request.GET.get('filter', None)
+    category_option = request.GET.get('category', 'all')
     if userid:
 
         products = Product.objects.all()
-
-        filter_option = request.GET.get('filter', None)
-        category_option = request.GET.get('category', 'all')
-
-        # category = request.session.get('category')
         print(f"Category == {category_option}")
 
-        products = product_filter_and_category(filter_option, category_option)
+        products = product_filter_and_category(filter_option=filter_option, category_option=category_option)
 
         return render(request, 'product.html', {'userid': userid, 'products': products})
     if userid is None:
-        products = Product.objects.all()
+        # products = Product.objects.all()
+        products = product_filter_and_category(filter_option=filter_option, category_option=category_option)
         render(request, 'product.html', {'userid':None,'products': products})
     return render(request, 'product.html',{'products': products})
     
@@ -222,6 +220,9 @@ def buy_all_products(request, userid=None):
                         "quantity": quantity
                     }
 
+                    product.stock -= quantity
+                    product.save()
+
                     total_price += price
 
                 Order.objects.create(
@@ -271,9 +272,12 @@ def buy_single_product(request, productid, userid=None):
                 },
                 
             )
-
+            
             cart.cart_items.pop(str(productid), None)
             cart.save()
+            print("product id :",productid)
+            product.stock -= quantity
+            product.save()
             messages.success(request, f"Product {product.name} (x{quantity}) purchased successfully.")
 
         except Exception as e:
@@ -290,17 +294,56 @@ def list_order_details(request,userid=None):
     return render(request,'order_details.html')
 
 
-def product_filter_and_category(filter_option, category_option):
+def product_filter_and_category(**kwargs):
+    # For n number of arguments
+    category_option = kwargs.get('category_option')
+    filter_option = kwargs.get('filter_option')
     products = Product.objects.all()
 
-    # Filter by category if not 'all'
+    # Filter by category 
     if category_option and category_option != "all":
         products = products.filter(category=category_option)
 
-    # Sort by filter option
+    # Sort by filter opt
     if filter_option == "low_to_high":
         products = products.order_by('price')
     elif filter_option == "high_to_low":
         products = products.order_by('-price')
 
     return products
+
+def admin(request,userid=None):
+    userid = request.session.get('userid')
+    if userid:
+        product = Product.objects.all()
+        option = request.POST.get('option')
+
+        if option == "add":
+            name = request.POST.get('name')
+            product_image = request.FILE.get('product_image')
+            description = request.POST.get('description')       
+            category = request.POST.get('category')
+            price = request.POST.get('price')
+            stock = request.POST.get('stock')
+
+            Product.objects.create(
+                name = name,
+                product_image = product_image,
+                description = description,
+                category = category,
+                price = price,
+                stock = stock
+            )
+
+            messages.success(request, f"Product {product.name} added successfully.")
+
+        elif option == 'delete':
+            try:
+                product = Product.objects.get(productid=product.productid)
+
+                product.delete()
+                messages.success(request, f"Product {product.name} deleted successfully.")
+                product.save()
+            except Exception as e:
+                messages.error(request,f"Error : {e} occour while delete")
+
