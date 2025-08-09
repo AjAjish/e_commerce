@@ -22,6 +22,9 @@ urlpatterns = [
     path('buy_all_products/<uuid:userid>/', views.buy_all_products, name='buy_all_products'),
     path('buy_single_product/<uuid:userid>/<uuid:productid>/', views.buy_single_product, name='buy_single_product'),
     path('order_details/<uuid:userid>/', views.list_order_details, name='list_order_details'),
+    path('add_product<uuid:userid>/', views.add_product, name='add_product'),
+    path('delete_product/<uuid:userid>/<uuid:productid>/', views.delete_product, name='delete_product'),
+
 ]
 
 if settings.DEBUG:

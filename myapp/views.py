@@ -49,7 +49,12 @@ def login(request):
                 userid = str(user.userid)
                 request.session['userid'] = userid
                 messages.success(request, 'Login successful!')
-                return redirect('home_with_userid',userid) 
+                return redirect('home_with_userid',userid)
+            elif user.role == "admin" and user.password == password:
+                userid = str(user.userid)
+                request.session['userid'] = userid
+                messages.success(request, 'Login successful!')
+                return redirect('home_with_userid',userid)
             else:
                 return render(request, 'login.html', {'error': 'Invalid email or password'})
         except User.DoesNotExist:
@@ -67,8 +72,8 @@ def product_page(request,userid=None):
         print(f"Category == {category_option}")
 
         products = product_filter_and_category(filter_option=filter_option, category_option=category_option)
-
-        return render(request, 'product.html', {'userid': userid, 'products': products})
+        user = User.objects.get(userid=userid)
+        return render(request, 'product.html', {'user': user,'userid': userid, 'products': products})
     if userid is None:
         # products = Product.objects.all()
         products = product_filter_and_category(filter_option=filter_option, category_option=category_option)
@@ -312,19 +317,17 @@ def product_filter_and_category(**kwargs):
 
     return products
 
-def admin(request,userid=None):
+def add_product(request,userid=None):
     userid = request.session.get('userid')
-    if userid:
-        product = Product.objects.all()
-        option = request.POST.get('option')
-
-        if option == "add":
+    if request.method == 'POST':
+        if userid:
             name = request.POST.get('name')
-            product_image = request.FILE.get('product_image')
-            description = request.POST.get('description')       
+            product_image = request.FILES.get('product_image')
+            description = request.POST.get('description')
             category = request.POST.get('category')
             price = request.POST.get('price')
             stock = request.POST.get('stock')
+
 
             Product.objects.create(
                 name = name,
@@ -334,16 +337,25 @@ def admin(request,userid=None):
                 price = price,
                 stock = stock
             )
+            print("Check DB")
+            messages.success(request,f"Product {name} Added successfully.")
+            return redirect('product_with_userid',userid)
 
-            messages.success(request, f"Product {product.name} added successfully.")
+        else:
+            messages.success(request,"Invalid user.")
 
-        elif option == 'delete':
+def delete_product(request,productid,userid=None):
+    if request.method == 'POST':
+        userid = request.session.get('userid')
+        if userid:
             try:
-                product = Product.objects.get(productid=product.productid)
-
+                product = Product.objects.get(productid=productid)
                 product.delete()
-                messages.success(request, f"Product {product.name} deleted successfully.")
-                product.save()
+                messages.success(request,f"The product {product.name} deleted successfully.")
             except Exception as e:
-                messages.error(request,f"Error : {e} occour while delete")
+                messages.success(request,f"Error : {str(e)} occour.")
+
+            return redirect('product_with_userid',userid)
+            
+
 
